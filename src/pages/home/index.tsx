@@ -1,5 +1,9 @@
+import { useContext, useEffect, useState } from "react";
+import { collection, query, onSnapshot } from "firebase/firestore";
 import PostForm from "components/posts/PostForm";
 import PostBox from "components/posts/PostBox";
+import AuthContext from "context/AuthContext";
+import { db } from "firebaseApp";
 
 export interface PostProps {
   id: string;
@@ -10,47 +14,43 @@ export interface PostProps {
   profileUrl?: string;
   likes?: string[];
   likeCount?: number;
-  comments?: any;
+  comments?: string;
 }
 
-const posts: PostProps[] = [
-  {
-    id: "1",
-    email: "test@test.com",
-    content: "내용",
-    createdAt: "2025-03-17",
-    uid: "123123",
-  },
-  {
-    id: "2",
-    email: "test2@test.com",
-    content: "내용2",
-    createdAt: "2025-03-17",
-    uid: "123123",
-  },
-  {
-    id: "3",
-    email: "test3@test.com",
-    content: "내용3",
-    createdAt: "2025-03-17",
-    uid: "123123",
-  },
-];
-
 const HomePage = () => {
+  const [posts, setPosts] = useState<PostProps[]>([]);
+  const { user } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (user) {
+      const q = query(collection(db, "posts"));
+      onSnapshot(q, (querySnapshot) => {
+        const dataObj = querySnapshot.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc?.id,
+        }));
+        setPosts(dataObj as PostProps[]);
+      });
+    }
+  }, []);
+
   return (
     <div className="home">
-      <div className="home__title">Home</div>
-      <div className="home__tabs">
-        <div className="home__tab home__tab--active">For You</div>
-        <div className="home__tab">Following</div>
+      <div className="home__top">
+        <div className="home__title">Home</div>
+        <div className="home__tabs">
+          <div className="home__tab home__tab--active">For You</div>
+          <div className="home__tab">Following</div>
+        </div>
       </div>
       <PostForm />
 
       <div className="post">
-        {posts.map((post) => (
-          <PostBox post={post} key={post?.id} />
-        ))}
+        {posts?.length > 0 ? (
+          posts.map((post) => <PostBox post={post} key={post?.id} />)
+        ) : (
+          <div className="post__no-posts">게시글이 없습니다.</div>
+        )}
       </div>
     </div>
   );
