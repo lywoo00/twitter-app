@@ -6,7 +6,9 @@ import { toast } from "react-toastify";
 import AuthContext from "context/AuthContext";
 
 const PostForm = () => {
-  const [content, setContent] = useState<string>();
+  const [content, setContent] = useState<string>("");
+  const [hashTag, setHashTag] = useState<string>("");
+  const [tags, setTags] = useState<string[]>([]);
   const { user } = useContext(AuthContext);
 
   const handleFileUpload = () => {};
@@ -23,7 +25,10 @@ const PostForm = () => {
         }),
         uid: user?.uid,
         email: user?.email,
+        hashTags: tags,
       });
+      setTags([]);
+      setHashTag("");
       setContent("");
       toast.success("게시글을 생성했습니다.");
     } catch (error: any) {
@@ -39,6 +44,24 @@ const PostForm = () => {
       setContent(value);
     }
   };
+  const handleKeyUp = (e: any) => {
+    if (e.keyCode === 32 && e.target.value.trim() !== "") {
+      if (tags?.includes(e.target.value?.trim())) {
+        toast.error("같은 태그가 있습니다");
+      } else {
+        setTags((prev) => (prev?.length > 0 ? [...prev, hashTag] : [hashTag]));
+        setHashTag("");
+      }
+    }
+  };
+
+  const onChangeHashTag = (e: any) => {
+    setHashTag(e?.target?.value?.trim());
+  };
+
+  const removeTag = (tag: string) => {
+    setTags(tags.filter((val) => val !== tag));
+  };
   return (
     <form className="post-form" onSubmit={onSubmit}>
       <textarea
@@ -50,6 +73,28 @@ const PostForm = () => {
         onChange={onChange}
         required
       />
+      <div className="post-form__hashtags">
+        <span className="post-form__hashtags-outputs">
+          {tags?.map((tag, idx) => (
+            <button
+              className="post-form__hashtags-tag"
+              key={idx}
+              onClick={() => removeTag(tag)}
+            >
+              # {tag}
+            </button>
+          ))}
+        </span>
+        <input
+          type="text"
+          className="post-form__input"
+          name="hashtag"
+          placeholder="해시태그 + 스페이스바"
+          onChange={onChangeHashTag}
+          onKeyUp={handleKeyUp}
+          value={hashTag}
+        />
+      </div>
       <div className="post-form__submitarea">
         <label htmlFor="file-input" className="post-form__file">
           <FiImage className="post-form__file-icon" />

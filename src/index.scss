@@ -1,5 +1,6 @@
 $backgroundColor: #1e293b;
 $activeBackgroundColor: #5274ac;
+$backgroundLight: #263340;
 $white: #ffffff;
 $border: #708090;
 $primaryColor: #60a5fa;
@@ -70,7 +71,7 @@ body {
 
   &__grid {
     display: grid;
-    grid-template-columns: repeat(3,minmax(0,1fr));
+    grid-template-columns: repeat(4,minmax(0,1fr));
     background-color: transparent;
 
     button {
@@ -87,6 +88,27 @@ body {
   }
 }
 .home {
+  &__search-div {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__search {
+    @extend .post-form__input;
+    background-color: $backgroundLight;
+    border-bottom: 1px solid $gray;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    padding: 12px;
+    width: 90% !important;
+    font-size: 15px;
+    font-weight: 600;
+
+    &:focus {
+      border: 1px solid $primaryColor;
+      background-color: $activeBg;
+    }
+  }
   &__top {
     @extend .transparent;
     @extend .sticky;
@@ -119,6 +141,42 @@ body {
 
 }
 .post-form {
+  &__input {
+    font-family: $font;
+    padding: 9px;
+    border: none;
+    background: transparent;
+    outline: none;
+    margin-top: 8px;
+    width: 100%;
+  }
+  &__hashtags {
+    padding: 16px;
+    border-bottom: 1px solid $border;
+
+    &-outputs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 1px;
+      align-items: center;
+    }
+
+    &-tag {
+      font-size: 14px;
+      border: 1px solid $primaryColor;
+      color: $primaryColor;
+      border-radius: 14px;
+      padding: 2px 8px;
+      margin-right: 6px;
+      cursor: pointer;
+      background-color: transparent;
+
+      &:hover,&:focus {
+        color: $activeBorder;
+        border-color: $activeBorder;
+      }
+    }
+  }
   &__textarea {
     font-family: $font;
     min-height: 120px;
