@@ -1,10 +1,16 @@
 import { FaUserCircle, FaRegComment } from "react-icons/fa";
-import { AiFillHeart } from "react-icons/ai";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import { PostProps } from "pages/home";
 import { useContext } from "react";
 import AuthContext from "context/AuthContext";
-import { doc, deleteDoc } from "firebase/firestore";
+import {
+  doc,
+  deleteDoc,
+  updateDoc,
+  arrayRemove,
+  arrayUnion,
+} from "firebase/firestore";
 import { db } from "firebaseApp";
 interface PostBoxProps {
   post: PostProps;
@@ -18,6 +24,21 @@ const PostBox = ({ post }: PostBoxProps) => {
     if (confirm) {
       await deleteDoc(doc(db, "posts", post?.id));
       navigate("/");
+    }
+  };
+
+  const toggleLikes = async () => {
+    const postRef = doc(db, "posts", post.id);
+    if (user?.uid && post?.likes?.includes(user?.uid)) {
+      await updateDoc(postRef, {
+        likes: arrayRemove(user?.uid),
+        likeCount: post?.likeCount ? post?.likeCount - 1 : 0,
+      });
+    } else {
+      await updateDoc(postRef, {
+        likes: arrayUnion(user?.uid),
+        likeCount: post?.likeCount ? post?.likeCount + 1 : 1,
+      });
     }
   };
   return (
@@ -54,9 +75,14 @@ const PostBox = ({ post }: PostBoxProps) => {
           <FaRegComment />
           {post.comments?.length || 0}
         </button>
-        <button type="button" className="post__likes">
-          <AiFillHeart />
-          {post?.likeCount || 0}
+        {/* 좋아요 */}
+        <button type="button" className="post__likes" onClick={toggleLikes}>
+          {user && post?.likes?.includes(user.uid) ? (
+            <AiFillHeart />
+          ) : (
+            <AiOutlineHeart />
+          )}
+          {post?.likeCount}
         </button>
         {user?.uid === post?.uid && (
           <>

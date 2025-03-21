@@ -8,6 +8,7 @@ import AuthContext from "context/AuthContext";
 const PostForm = () => {
   const [content, setContent] = useState<string>("");
   const [hashTag, setHashTag] = useState<string>("");
+  // const [likeCount, setLikeCount] = useState<number>(0);
   const [tags, setTags] = useState<string[]>([]);
   const { user } = useContext(AuthContext);
 

@@ -94,16 +94,16 @@ body {
   }
 
   &__search {
-    @extend .post-form__input;
     background-color: $backgroundLight;
-    border-bottom: 1px solid $gray;
+    
     border-radius: 20px;
     margin-bottom: 20px;
     padding: 12px;
     width: 90% !important;
     font-size: 15px;
     font-weight: 600;
-
+    border: none;
+    outline: none;
     &:focus {
       border: 1px solid $primaryColor;
       background-color: $activeBg;
@@ -112,6 +112,30 @@ body {
   &__top {
     @extend .transparent;
     @extend .sticky;
+
+    .profile {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      padding: 0 16px;
+    }
+    .profile img {
+      width: 100px;
+    }
+    .profile__btn {
+      background-color: $primaryColor;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 999px;
+      text-align: right;
+    }
+    .profile__Text {
+      padding: 20px 16px;
+
+      .profile__email {
+        color: $grayText;
+      }
+    }
   }
 
   &__title {
@@ -138,6 +162,8 @@ body {
       background-color: $activeBackgroundColor;
     }
   }
+
+ 
 
 }
 .post-form {
