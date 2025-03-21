@@ -71,7 +71,7 @@ const PostBox = ({ post }: PostBoxProps) => {
         </div>
       </Link>
       <div className="post__box-footer">
-        <button type="button" className="post__comments" onClick={handleDelete}>
+        <button type="button" className="post__comments">
           <FaRegComment />
           {post.comments?.length || 0}
         </button>

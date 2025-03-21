@@ -25,6 +25,8 @@ body {
   color: $white;
   box-sizing: border-box;
 }
+.a-right {text-align: right;}
+.justify-end {justify-content: flex-end !important;}
 .layout {
   max-width: 600px;
   margin: 0 auto;
@@ -247,7 +249,10 @@ body {
     @extend .button;
     padding: 0.5rem 1rem;
     background-color: $primaryColor;
-    
+
+    &:disabled {
+      opacity: 0.5;
+    }
   }
 }
 .post {
