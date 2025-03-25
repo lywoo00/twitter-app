@@ -5,6 +5,7 @@ import { db } from "firebaseApp";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import { PostProps } from "pages/home";
+import PostHeader from "./PostHeader";
 
 const PostEditForm = () => {
   const params = useParams();
@@ -80,53 +81,56 @@ const PostEditForm = () => {
     setTags(tags.filter((val) => val !== tag));
   };
   return (
-    <form className="post-form" onSubmit={onSubmit}>
-      <textarea
-        className="post-form__textarea"
-        name="content"
-        id="content"
-        value={content}
-        placeholder="What is happening?"
-        onChange={onChange}
-        required
-      />
-      <div className="post-form__hashtags">
-        <span className="post-form__hashtags-outputs">
-          {tags?.map((tag, idx) => (
-            <button
-              className="post-form__hashtags-tag"
-              key={idx}
-              onClick={() => removeTag(tag)}
-            >
-              # {tag}
-            </button>
-          ))}
-        </span>
-        <input
-          type="text"
-          className="post-form__input"
-          name="hashtag"
-          placeholder="해시태그 + 스페이스바"
-          onChange={onChangeHashTag}
-          onKeyUp={handleKeyUp}
-          value={hashTag}
+    <>
+      <PostHeader />
+      <form className="post-form" onSubmit={onSubmit}>
+        <textarea
+          className="post-form__textarea"
+          name="content"
+          id="content"
+          value={content}
+          placeholder="What is happening?"
+          onChange={onChange}
+          required
         />
-      </div>
-      <div className="post-form__submitarea">
-        <label htmlFor="file-input" className="post-form__file">
-          <FiImage className="post-form__file-icon" />
+        <div className="post-form__hashtags">
+          <span className="post-form__hashtags-outputs">
+            {tags?.map((tag, idx) => (
+              <button
+                className="post-form__hashtags-tag"
+                key={idx}
+                onClick={() => removeTag(tag)}
+              >
+                # {tag}
+              </button>
+            ))}
+          </span>
           <input
-            type="file"
-            name="file-input"
-            accept="image/*"
-            onChange={handleFileUpload}
-            className="hidden"
+            type="text"
+            className="post-form__input"
+            name="hashtag"
+            placeholder="해시태그 + 스페이스바"
+            onChange={onChangeHashTag}
+            onKeyUp={handleKeyUp}
+            value={hashTag}
           />
-        </label>
+        </div>
+        <div className="post-form__submitarea">
+          <label htmlFor="file-input" className="post-form__file">
+            <FiImage className="post-form__file-icon" />
+            <input
+              type="file"
+              name="file-input"
+              accept="image/*"
+              onChange={handleFileUpload}
+              className="hidden"
+            />
+          </label>
 
-        <input type="submit" value="수정" className="post-form__submit-btn" />
-      </div>
-    </form>
+          <input type="submit" value="수정" className="post-form__submit-btn" />
+        </div>
+      </form>
+    </>
   );
 };
 

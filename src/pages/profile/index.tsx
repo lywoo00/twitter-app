@@ -21,7 +21,6 @@ const ProfilePage = () => {
           id: doc?.id,
         }));
         setPosts(dataObj as PostProps[]);
-        console.log(dataObj);
       });
     }
   }, []);

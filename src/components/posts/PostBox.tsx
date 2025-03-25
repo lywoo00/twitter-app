@@ -12,6 +12,7 @@ import {
   arrayUnion,
 } from "firebase/firestore";
 import { db } from "firebaseApp";
+import FollowingBox from "components/following/FollowingBox";
 interface PostBoxProps {
   post: PostProps;
 }
@@ -43,8 +44,8 @@ const PostBox = ({ post }: PostBoxProps) => {
   };
   return (
     <div className="post__box" key={post?.id}>
-      <Link to={`/posts/${post?.id}`}>
-        <div className="post__box-profile">
+      <div className="post__box-profile">
+        <div className="post__flex justify-between">
           <div className="post__flex">
             {post?.profileUrl ? (
               <img
@@ -58,6 +59,9 @@ const PostBox = ({ post }: PostBoxProps) => {
             <div className="post__email">{post?.email}</div>
             <div className="post__createdAt">{post?.createAt}</div>
           </div>
+          <FollowingBox post={post} />
+        </div>
+        <Link to={`/posts/${post?.id}`}>
           <div className="post__box-content">{post?.content}</div>
           <div className="post-form__hashtags">
             <span className="post-form__hashtags-outputs">
@@ -68,13 +72,13 @@ const PostBox = ({ post }: PostBoxProps) => {
               ))}
             </span>
           </div>
-        </div>
-      </Link>
+        </Link>
+      </div>
       <div className="post__box-footer">
-        <button type="button" className="post__comments">
+        <Link to={`/posts/${post?.id}`} className="post__comments">
           <FaRegComment />
           {post.comments?.length || 0}
-        </button>
+        </Link>
         {/* 좋아요 */}
         <button type="button" className="post__likes" onClick={toggleLikes}>
           {user && post?.likes?.includes(user.uid) ? (

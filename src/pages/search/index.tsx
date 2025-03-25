@@ -25,7 +25,7 @@ const SearchPage = () => {
       const postQuery = query(
         collection(db, "posts"),
         where("hashTags", "array-contains-any", [tagQuery]),
-        orderBy("createAt")
+        orderBy("createAt", "desc")
       );
       onSnapshot(postQuery, (snapShot) => {
         const dataObj = snapShot?.docs?.map((doc) => ({

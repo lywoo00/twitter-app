@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { BsHouse } from "react-icons/bs";
 import { FaRegUserCircle } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
+import { IoMdNotificationsOutline } from "react-icons/io";
 import { MdLogout, MdLogin } from "react-icons/md";
 import { useContext } from "react";
 import AuthContext from "context/AuthContext";
@@ -26,25 +27,30 @@ const MenuList = () => {
       <div className="footer__grid">
         <button type="button" onClick={() => navigate("/")}>
           <BsHouse />
-          Home
+          <span>Home</span>
         </button>
         <button type="button" onClick={() => navigate("/profile")}>
           <FaRegUserCircle />
-          Profile
+          <span>Profile</span>
         </button>
         <button type="button" onClick={() => navigate("/Search")}>
           <AiOutlineSearch />
-          Search
+          <span>Search</span>
         </button>
+        <button type="button" onClick={() => navigate("/notifications")}>
+          <IoMdNotificationsOutline />
+          <span>Notifications</span>
+        </button>
+
         {user === null ? (
           <button type="button" onClick={() => navigate("/users/login")}>
             <MdLogin />
-            Login
+            <span>Login</span>
           </button>
         ) : (
           <button type="button" onClick={() => logout()}>
             <MdLogout />
-            Logout
+            <span>Logout</span>
           </button>
         )}
       </div>
