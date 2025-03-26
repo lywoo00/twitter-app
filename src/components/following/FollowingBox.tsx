@@ -10,6 +10,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db } from "firebaseApp";
+import useTranslation from "hooks/useTranslation";
 import { PostProps } from "pages/home";
 import { useCallback, useContext, useEffect, useState } from "react";
 
@@ -22,6 +23,7 @@ interface UserProps {
 const FollowingBox = ({ post }: FollowingProps) => {
   const { user } = useContext(AuthContext);
   const [postFollowers, setPostFollowers] = useState<any>([]);
+  const t = useTranslation();
 
   const onClickFollow = async () => {
     try {
@@ -98,11 +100,11 @@ const FollowingBox = ({ post }: FollowingProps) => {
       {user?.uid !== post?.uid &&
         (postFollowers?.includes(user?.uid) ? (
           <button className="post__following-btn" onClick={onClickDeleteFollow}>
-            Following
+            {t("BUTTON_FOLLOWING")}
           </button>
         ) : (
           <button className="post__follow-btn" onClick={onClickFollow}>
-            Follow
+            {t("BUTTON_FOLLOW")}
           </button>
         ))}
     </>

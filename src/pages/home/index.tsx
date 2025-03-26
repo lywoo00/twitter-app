@@ -11,6 +11,7 @@ import PostForm from "components/posts/PostForm";
 import PostBox from "components/posts/PostBox";
 import AuthContext from "context/AuthContext";
 import { db } from "firebaseApp";
+import useTranslation from "hooks/useTranslation";
 
 export interface PostProps {
   id: string;
@@ -36,6 +37,7 @@ const HomePage = () => {
   const [followingPosts, setFollowingPosts] = useState<PostProps[]>([]);
   const [followingIds, setFollowingIds] = useState<string[]>([]);
   const { user } = useContext(AuthContext);
+  const t = useTranslation();
   const getFollowingIds = useCallback(async () => {
     if (user?.uid) {
       console.log("🟢 getFollowingIds 실행됨!");
@@ -96,7 +98,7 @@ const HomePage = () => {
   return (
     <div className="home">
       <div className="home__top">
-        <div className="home__title">Home</div>
+        <div className="home__title">{t("MENU_HMOE")}</div>
         <div className="home__tabs">
           <div
             className={`home__tab ${
@@ -104,7 +106,7 @@ const HomePage = () => {
             }`}
             onClick={() => setActiveTab("all")}
           >
-            All
+            {t("TAB_ALL")}
           </div>
           <div
             className={`home__tab ${
@@ -112,7 +114,7 @@ const HomePage = () => {
             }`}
             onClick={() => setActiveTab("following")}
           >
-            Following
+            {t("TAB_FOLLOWING")}
           </div>
         </div>
       </div>
@@ -122,7 +124,7 @@ const HomePage = () => {
           {posts?.length > 0 ? (
             posts.map((post) => <PostBox post={post} key={post?.id} />)
           ) : (
-            <div className="post__no-posts">게시글이 없습니다.</div>
+            <div className="post__no-posts">{t("NO_POSTS")}</div>
           )}
         </div>
       )}
@@ -131,7 +133,7 @@ const HomePage = () => {
           {followingPosts?.length > 0 ? (
             followingPosts.map((post) => <PostBox post={post} key={post?.id} />)
           ) : (
-            <div className="post__no-posts">게시글이 없습니다.</div>
+            <div className="post__no-posts">{t("NO_POSTS")}</div>
           )}
         </div>
       )}

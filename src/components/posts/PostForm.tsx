@@ -4,6 +4,7 @@ import { collection, addDoc } from "firebase/firestore";
 import { db } from "firebaseApp";
 import { toast } from "react-toastify";
 import AuthContext from "context/AuthContext";
+import useTranslation from "hooks/useTranslation";
 
 const PostForm = () => {
   const [content, setContent] = useState<string>("");
@@ -11,6 +12,7 @@ const PostForm = () => {
   // const [likeCount, setLikeCount] = useState<number>(0);
   const [tags, setTags] = useState<string[]>([]);
   const { user } = useContext(AuthContext);
+  const t = useTranslation();
 
   const handleFileUpload = () => {};
 
@@ -108,7 +110,11 @@ const PostForm = () => {
           />
         </label>
 
-        <input type="submit" value="Tweet" className="post-form__submit-btn" />
+        <input
+          type="submit"
+          value={t("BUTTON_TWEET")}
+          className="post-form__submit-btn"
+        />
       </div>
     </form>
   );

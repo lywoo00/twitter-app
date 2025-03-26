@@ -13,6 +13,7 @@ import {
 } from "firebase/firestore";
 import { db } from "firebaseApp";
 import FollowingBox from "components/following/FollowingBox";
+import useTranslation from "hooks/useTranslation";
 interface PostBoxProps {
   post: PostProps;
 }
@@ -20,6 +21,7 @@ interface PostBoxProps {
 const PostBox = ({ post }: PostBoxProps) => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
+  const t = useTranslation();
   const handleDelete = async () => {
     const confirm = window.confirm("삭제 하시겠습니까?");
     if (confirm) {
@@ -91,14 +93,14 @@ const PostBox = ({ post }: PostBoxProps) => {
         {user?.uid === post?.uid && (
           <>
             <button type="button" className="post__edit">
-              <Link to={`/posts/edit/${post?.id}`}>Edit</Link>
+              <Link to={`/posts/edit/${post?.id}`}>{t("BUTTON_EDIT")}</Link>
             </button>
             <button
               type="button"
               className="post__delete"
               onClick={handleDelete}
             >
-              Delete
+              {t("BUTTON_DELETE")}
             </button>
           </>
         )}

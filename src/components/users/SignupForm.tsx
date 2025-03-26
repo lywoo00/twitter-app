@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import {
   createUserWithEmailAndPassword,
   signInWithPopup,
@@ -9,12 +9,15 @@ import {
 import { auth } from "../../firebaseApp";
 import { toast } from "react-toastify";
 import { FirebaseError } from "firebase/app";
+import useTranslation from "hooks/useTranslation";
+
 const SignupForm = () => {
   const [error, setError] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [passworConfirmation, setPasswordConfirmation] = useState<string>("");
   const navigate = useNavigate();
+  const t = useTranslation();
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -94,9 +97,9 @@ const SignupForm = () => {
   };
   return (
     <form className="form form--lg" onSubmit={onSubmit}>
-      <div className="form__title">회원가입</div>
+      <div className="form__title">{t("MENU_SIGNUP")}</div>
       <div className="form__block">
-        <label htmlFor="email">이메일</label>
+        <label htmlFor="email">{t("FORM_EMAIL")}</label>
         <input
           type="text"
           name="email"
@@ -107,7 +110,7 @@ const SignupForm = () => {
         />
       </div>
       <div className="form__block">
-        <label htmlFor="password">비밀번호</label>
+        <label htmlFor="password">{t("FORM_PASSWORD")}</label>
         <input
           type="password"
           name="password"
@@ -118,7 +121,9 @@ const SignupForm = () => {
         />
       </div>
       <div className="form__block">
-        <label htmlFor="password_confirmation">비밀번호 확인</label>
+        <label htmlFor="password_confirmation">
+          {t("FORM_PASSWORD_CHECK")}
+        </label>
         <input
           type="password"
           name="password_confirmation"
@@ -135,9 +140,9 @@ const SignupForm = () => {
       )}
 
       <div className="form__block">
-        계정이 있으신가요?
+        {t("YES_ACCOUNT")}
         <Link to={"/login"} className="form__link">
-          로그인하기
+          {t("SIGNIN_LINK")}
         </Link>
       </div>
       <div className="form__block--lg">
@@ -146,7 +151,7 @@ const SignupForm = () => {
           className="form__btn--submit"
           disabled={error?.length > 0}
         >
-          회원가입
+          {t("MENU_SIGNUP")}
         </button>
       </div>
       <div className="form__block">
@@ -156,7 +161,7 @@ const SignupForm = () => {
           className="form__btn--google"
           onClick={onClickSocialLogin}
         >
-          Google 회원가입
+          Google {t("MENU_SIGNUP")}
         </button>
       </div>
       <div className="form__block">
@@ -166,7 +171,7 @@ const SignupForm = () => {
           className="form__btn--github"
           onClick={onClickSocialLogin}
         >
-          Github 회원가입
+          Github {t("MENU_SIGNUP")}
         </button>
       </div>
     </form>

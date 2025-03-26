@@ -2,15 +2,24 @@ import PostBox from "components/posts/PostBox";
 import AuthContext from "context/AuthContext";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "firebaseApp";
+import useTranslation from "hooks/useTranslation";
 import { PostProps } from "pages/home";
 import { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLanguageStore } from "store";
 
 const ProfilePage = () => {
   const [posts, setPosts] = useState<PostProps[]>([]);
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const PROFILE_DEFAULT_URL = "/logo192.png";
+  const LanguageType = useLanguageStore((state) => state.LanguageType);
+  const toggleLanguage = useLanguageStore((state) => state.setLanguage);
+  const t = useTranslation();
+  const onClickLanguage = () => {
+    toggleLanguage();
+    console.log(LanguageType);
+  };
 
   useEffect(() => {
     if (user) {
@@ -34,13 +43,22 @@ const ProfilePage = () => {
             alt="profile"
             className="profile__image"
           />
-          <button
-            type="button"
-            className="profile__btn"
-            onClick={() => navigate("/profile/edit")}
-          >
-            프로필 수정
-          </button>
+          <div className="profile__flex">
+            <button
+              type="button"
+              className="profile__btn"
+              onClick={() => navigate("/profile/edit")}
+            >
+              {t("BUTTON_EDIT_PROFILE")}
+            </button>
+            <button
+              type="button"
+              className="profile__btn--language"
+              onClick={onClickLanguage}
+            >
+              {LanguageType === "ko" ? "English" : "한국어"}
+            </button>
+          </div>
         </div>
         <div className="profile__Text">
           <div className="profile__name">{user?.displayName || "사용자"}님</div>
